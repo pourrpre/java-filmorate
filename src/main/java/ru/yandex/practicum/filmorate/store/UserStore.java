@@ -3,10 +3,7 @@ package ru.yandex.practicum.filmorate.store;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.User;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class UserStore {
@@ -16,8 +13,8 @@ public class UserStore {
         return users.values();
     }
 
-    public User getById(Long id) {
-        return users.get(id);
+    public Optional<User> getById(Long id) {
+        return Optional.ofNullable(users.get(id));
     }
 
     public User add(User user) {
