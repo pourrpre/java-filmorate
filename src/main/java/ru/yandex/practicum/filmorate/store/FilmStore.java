@@ -3,10 +3,7 @@ package ru.yandex.practicum.filmorate.store;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.Film;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class FilmStore {
@@ -16,8 +13,8 @@ public class FilmStore {
         return films.values();
     }
 
-    public Film getById(Long id) {
-        return films.get(id);
+    public Optional<Film> getById(Long id) {
+        return Optional.ofNullable(films.get(id));
     }
 
     public Film add(Film film) {

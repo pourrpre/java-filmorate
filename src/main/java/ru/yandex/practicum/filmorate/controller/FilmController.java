@@ -36,10 +36,8 @@ public class FilmController {
     @GetMapping("/{id}")
     public Film getById(@PathVariable Long id) {
         log.debug("Поступил GET-запрос для фильма с id={}", id);
-        Film film = filmStore.getById(id);
-        if (film == null) {
-            throw new NotFoundException("Фильм с id=" + id + " не найден");
-        }
+        Film film = filmStore.getById(id)
+                .orElseThrow(() -> new NotFoundException("Фильм с id=" + id + " не найден"));
         log.info("Возвращаем фильм: id={}, name={}", film.getId(), film.getName());
         return film;
     }
@@ -51,10 +49,8 @@ public class FilmController {
             log.warn("Попытка обновления фильма без ID в теле запроса");
             throw new BadRequestException("ID фильма должен быть указан в теле запроса");
         }
-        if (filmStore.getById(film.getId()) == null) {
-            log.warn("Попытка обновления несуществующего фильма: id={}", film.getId());
-            throw new NotFoundException("Фильм с id=" + film.getId() + " не найден");
-        }
+        filmStore.getById(film.getId())
+                .orElseThrow(() -> new NotFoundException("Фильм с id=" + film.getId() + " не найден"));
         log.info("Фильм с id={} успешно изменен", film.getId());
         return filmStore.update(film);
     }
